@@ -1,0 +1,42 @@
+root: true
+env:
+  browser: true
+  es2021: true
+parser: '@typescript-eslint/parser'
+settings:
+  import/resolver:
+    typescript: true
+    node: true
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+  ecmaVersion: 13
+  sourceType: module
+plugins:
+  - react
+  - react-hooks
+  - import
+  - unused-imports
+overrides:
+  - files: ['*.ts', '*.tsx']
+    rules:
+      react-hooks/rules-of-hooks: error
+      react/self-closing-comp: error
+      import/no-unresolved: error
+      unused-imports/no-unused-imports: error
+      import/order:
+        - error
+        - newlines-between: always
+          pathGroups:
+            - pattern: '@simple-chat/**'
+              group: internal
+              position: after
+          groups:
+            - builtin
+            - external
+            - internal
+            - parent
+            - sibling
+            - index
+            - object
+            - type
