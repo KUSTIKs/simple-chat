@@ -13,7 +13,7 @@ export const Wrapper = styled.div<{
     ${maxWidth && `max-width: ${maxWidth}px;`}
     ${Icon} {
       font-size: 20px;
-      color: ${theme.colors.text.share200.string()};
+      color: ${theme.colors.text.shade200.string()};
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
@@ -35,7 +35,7 @@ export const Input = styled.input<{
     padding: 8px ${getInputPadding(isRightPadding)} 8px
       ${getInputPadding(isLeftPadding)};
     border-radius: 10px;
-    background-color: ${theme.colors.grey.share100.string()};
+    background-color: ${theme.colors.grey.shade100.string()};
     outline: none;
   `
 );

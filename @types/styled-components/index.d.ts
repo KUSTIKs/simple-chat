@@ -5,14 +5,14 @@ declare module 'styled-components' {
   export interface DefaultTheme {
     colors: {
       grey: {
-        share100: Color;
-        share200: Color;
+        shade100: Color;
+        shade200: Color;
       };
       text: {
-        share100: Color;
-        share200: Color;
-        share300: Color;
-        share400: Color;
+        shade100: Color;
+        shade200: Color;
+        shade300: Color;
+        shade400: Color;
       };
       accent: {
         shade100: Color;
@@ -20,6 +20,9 @@ declare module 'styled-components' {
       secondary: {
         shade100: Color;
       };
+    };
+    widths: {
+      sidebar: string;
     };
   }
 }

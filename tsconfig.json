@@ -20,7 +20,10 @@
     "paths": {
       "@simple-chat/types": ["src/types/index.ts"],
       "@simple-chat/components": ["src/components/index.ts"],
-      "@simple-chat/config": ["src/config/index.ts"]
+      "@simple-chat/config": ["src/config/index.ts"],
+      "@simple-chat/assets": ["src/assets/index.ts"],
+      "@simple-chat/widgets": ["src/widgets/index.ts"],
+      "@simple-chat/layouts": ["src/layouts/index.ts"]
     }
   },
   "include": ["src"],
