@@ -13,10 +13,15 @@ export const GlobalStyle = createGlobalStyle(
     }
 
     button,
+    textarea,
     input {
       font-family: inherit;
       font-size: 1rem;
       border: none;
+    }
+
+    button {
+      cursor: pointer;
     }
   `
 );

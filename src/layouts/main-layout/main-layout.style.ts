@@ -10,5 +10,6 @@ export const Wrapper = styled.div(
 export const ContentWrapper = styled.main(
   () => css`
     flex-grow: 1;
+    position: relative;
   `
 );
