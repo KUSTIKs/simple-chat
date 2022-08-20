@@ -1,6 +1,7 @@
 import { ChangeEventHandler, FC, KeyboardEventHandler, useState } from 'react';
 
 import { Icon } from '@simple-chat/components';
+import { KeyboardKeyName } from '@simple-chat/enums';
 
 import * as S from './message-input.style';
 
@@ -16,7 +17,7 @@ export const MessageInput: FC = () => {
   };
 
   const handleKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === KeyboardKeyName.ENTER && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
     }
