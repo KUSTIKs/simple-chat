@@ -17,10 +17,11 @@ export const Wrapper = styled.div<{
 );
 
 export const MessageColumn = styled.div(
-  () => css`
+  ({ theme }) => css`
     display: flex;
     flex-direction: column;
     gap: 5px;
+    max-width: min(${theme.widths.maxMessage}, calc(100% - 15px));
   `
 );
 
@@ -47,7 +48,6 @@ export const Message = styled.div<{
     padding: 5px 10px;
     border-radius: 10px;
     width: fit-content;
-    max-width: min(${theme.widths.maxMessage}, calc(100% - 15px));
     font-family: inherit;
     ${getMessageVariantStyles(variant, theme)}
   `

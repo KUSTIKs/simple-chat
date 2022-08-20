@@ -29,7 +29,8 @@
       "@simple-chat/enums": ["src/enums/index.ts"],
       "@simple-chat/pages": ["src/pages/index.ts"],
       "@simple-chat/store": ["src/store/index.ts"],
-      "@simple-chat/hooks": ["src/hooks/index.ts"]
+      "@simple-chat/hooks": ["src/hooks/index.ts"],
+      "@root/*": ["./*"]
     }
   },
   "include": ["src"],

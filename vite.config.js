@@ -21,6 +21,7 @@ export default defineConfig({
       '@simple-chat/pages': getPath('./src/pages/index.ts'),
       '@simple-chat/store': getPath('./src/store/index.ts'),
       '@simple-chat/hooks': getPath('./src/hooks/index.ts'),
+      '@root': getPath('.'),
     },
   },
   plugins: [react()],

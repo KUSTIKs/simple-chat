@@ -27,7 +27,12 @@ export class ChatsService {
         return getFullName(interlocutor)
           .toLowerCase()
           .includes(query.q.toLowerCase());
-      });
+      })
+      .sort(
+        (a, b) =>
+          new Date(b.messages.at(-1)!.createdAt).getTime() -
+          new Date(a.messages.at(-1)!.createdAt).getTime()
+      );
 
     return filteredChatsWithFullInfo;
   }

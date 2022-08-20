@@ -1,8 +1,9 @@
 import qs from 'qs';
 
-type AppFetchParams = RequestInit & {
+type AppFetchParams = Omit<RequestInit, 'body'> & {
   resource: string;
   query?: Record<string, unknown>;
+  body?: any;
 };
 
 export const appFetch = async <T>({
@@ -15,6 +16,11 @@ export const appFetch = async <T>({
     `http://localhost:5000/${resource}?${queryString}`,
     {
       ...params,
+      body: params.body && JSON.stringify(params.body),
+      headers: {
+        'content-type': 'application/json',
+        ...params.headers,
+      },
     }
   );
 

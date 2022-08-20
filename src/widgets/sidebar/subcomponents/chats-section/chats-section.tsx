@@ -1,12 +1,12 @@
 import { FC } from 'react';
-import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
 
 import { ChatItem } from '@simple-chat/components';
-import { QueryKey } from '@simple-chat/enums';
-import { ChatsService } from '@simple-chat/services';
 import { getFullName } from '@simple-chat/utils';
 import { useAppSelector } from '@simple-chat/hooks';
+import { QueryKey } from '@simple-chat/enums';
+import { ChatsService } from '@simple-chat/services';
 
 import { Section } from '../section';
 

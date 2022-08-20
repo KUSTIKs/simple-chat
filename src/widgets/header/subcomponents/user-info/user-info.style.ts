@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 export const Wrapper = styled.div(
   () => css`
     display: flex;
+    align-items: center;
     gap: 15px;
   `
 );
@@ -11,6 +12,7 @@ export const Info = styled.div(
   () => css`
     display: flex;
     flex-direction: column;
+    line-height: 1.25em;
   `
 );
 

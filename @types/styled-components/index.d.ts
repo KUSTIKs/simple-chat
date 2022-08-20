@@ -16,6 +16,7 @@ declare module 'styled-components' {
       };
       accent: {
         shade100: Color;
+        shade200: Color;
       };
       secondary: {
         shade100: Color;

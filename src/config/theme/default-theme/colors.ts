@@ -15,6 +15,7 @@ export const colors: DefaultTheme['colors'] = {
   },
   accent: {
     shade100: hsl(200, 100, 50),
+    shade200: hsl(200, 95, 45),
   },
   secondary: {
     shade100: hsl(220, 15, 40),

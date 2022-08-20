@@ -1,29 +1,28 @@
 import { ChangeEventHandler, FC, useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
+import { signOut } from 'firebase/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
+
+import { auth } from '@root/firebaseconfig';
 
 import { Avatar, Icon, TextInput } from '@simple-chat/components';
-import { QueryKey } from '@simple-chat/enums';
-import { UsersService } from '@simple-chat/services';
-import { getFullName } from '@simple-chat/utils';
 import { useDebounce } from '@simple-chat/hooks';
 import { appActions } from '@simple-chat/store';
 
 import * as S from './header.style';
 
 export const Header: FC = () => {
-  const { data: user } = useQuery(
-    [QueryKey.USERS, 'current'],
-    UsersService.getCurrent
-  );
+  const [user] = useAuthState(auth);
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 500);
   const dispatch = useDispatch();
 
-  const fullName = user && getFullName(user);
-
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setSearch(e.target.value);
+  };
+
+  const handleSignOut = () => {
+    signOut(auth);
   };
 
   useEffect(() => {
@@ -32,10 +31,15 @@ export const Header: FC = () => {
 
   return (
     <S.Header>
-      <S.UserInfo>
-        <Avatar alt='avatar' src={user?.avatarUrl} />
-        <S.Name>{fullName}</S.Name>
-      </S.UserInfo>
+      <S.UserSection>
+        <S.UserInfo>
+          <Avatar alt='avatar' src={user?.photoURL} />
+          <S.Name>{user?.displayName}</S.Name>
+        </S.UserInfo>
+        <S.LogoutButton onClick={handleSignOut}>
+          <Icon.LogoutCircleLine />
+        </S.LogoutButton>
+      </S.UserSection>
       <TextInput
         placeholder='Search'
         startIcon={Icon.SearchLine}

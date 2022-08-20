@@ -5,14 +5,18 @@ import { KeyboardKeyName } from '@simple-chat/enums';
 
 import * as S from './message-input.style';
 
-export const MessageInput: FC = () => {
+type Props = {
+  handleSubmit: (value: string) => void;
+};
+
+export const MessageInput: FC<Props> = ({ handleSubmit }) => {
   const [message, setMessage] = useState('');
 
   const isMessageValid = message.trim().length > 0;
 
   const sendMessage = () => {
     if (!isMessageValid) return;
-    console.log('TODO: send message');
+    handleSubmit(message);
     setMessage('');
   };
 

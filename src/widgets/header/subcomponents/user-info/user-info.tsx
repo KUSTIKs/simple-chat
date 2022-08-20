@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const UserInfo: FC<Props> = ({ avatarSrc, lastTimeOnline, name }) => {
-  const formattedDate = lastTimeOnline && lastTimeOnline.toLocaleString();
+  const formattedDate = lastTimeOnline?.toLocaleString();
   const avatarAlt = `${name}'s avatar`;
 
   return (
