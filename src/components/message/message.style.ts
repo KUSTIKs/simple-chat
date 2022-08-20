@@ -47,7 +47,7 @@ export const Message = styled.div<{
     padding: 5px 10px;
     border-radius: 10px;
     width: fit-content;
-    max-width: 600px;
+    max-width: ${theme.widths.maxMessage};
     font-family: inherit;
     ${getMessageVariantStyles(variant, theme)}
   `

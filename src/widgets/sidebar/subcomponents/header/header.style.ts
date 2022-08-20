@@ -7,6 +7,7 @@ export const Header = styled.header(
     gap: 15px;
     padding: 20px 15px;
     border-bottom: 2px solid ${theme.colors.grey.shade100.string()};
+    background-color: white;
   `
 );
 

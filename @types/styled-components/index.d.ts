@@ -23,6 +23,8 @@ declare module 'styled-components' {
     };
     widths: {
       sidebar: string;
+      messageInput: string;
+      maxMessage: string;
     };
   }
 }

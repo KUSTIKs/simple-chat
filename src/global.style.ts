@@ -6,6 +6,18 @@ export const GlobalStyle = createGlobalStyle(
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      scrollbar-width: thin;
+      scrollbar-color: #b8b8b8 #ededed;
+      &::-webkit-scrollbar {
+        width: 12px;
+      }
+      &::-webkit-scrollbar-track {
+        background: #ededed;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: #b8b8b8;
+        border-radius: 0px;
+      }
     }
 
     body {

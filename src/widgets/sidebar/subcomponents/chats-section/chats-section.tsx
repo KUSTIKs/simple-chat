@@ -1,42 +1,38 @@
 import { FC } from 'react';
+import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 
 import { ChatItem } from '@simple-chat/components';
+import { QueryKey } from '@simple-chat/enums';
+import { ChatsService } from '@simple-chat/services';
+import { getFullName } from '@simple-chat/utils';
 
 import { Section } from '../section';
 
 import * as S from './chats-section.style';
 
 export const ChatsSection: FC = () => {
+  const { data: chats } = useQuery([QueryKey.CHATS], ChatsService.getAll);
+  const navigate = useNavigate();
+
+  const navigateToChat = (id: string) => () => {
+    navigate(`/${id}`);
+  };
+
   return (
     <Section title='Chats'>
       <S.ChatsList>
-        <ChatItem
-          avatarSrc='https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'
-          date={new Date()}
-          message='Laborum ea excepteur esse officia cillum culpa velit. Eu sunt adipisicing dolore tempor nisi nisi laborum nostrud officia deserunt. Aliquip nostrud aute dolor esse nostrud.'
-          name='Hester Webb'
-        />
-        <S.Separator />
-        <ChatItem
-          avatarSrc='https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'
-          date={new Date()}
-          message='Laborum ea excepteur esse officia cillum culpa velit. Eu sunt adipisicing dolore tempor nisi nisi laborum nostrud officia deserunt. Aliquip nostrud aute dolor esse nostrud.'
-          name='Hester Webb'
-        />
-        <S.Separator />
-        <ChatItem
-          avatarSrc='https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'
-          date={new Date()}
-          message='Laborum ea excepteur esse officia cillum culpa velit. Eu sunt adipisicing dolore tempor nisi nisi laborum nostrud officia deserunt. Aliquip nostrud aute dolor esse nostrud.'
-          name='Hester Webb'
-        />
-        <S.Separator />
-        <ChatItem
-          avatarSrc='https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'
-          date={new Date()}
-          message='Laborum ea excepteur esse officia cillum culpa velit. Eu sunt adipisicing dolore tempor nisi nisi laborum nostrud officia deserunt. Aliquip nostrud aute dolor esse nostrud.'
-          name='Hester Webb'
-        />
+        {chats?.map((chat) => (
+          <ChatItem
+            key={chat.id}
+            avatarSrc={chat.interlocutor.avatarUrl}
+            name={getFullName(chat.interlocutor)}
+            date={new Date(chat.messages.at(-1)!.createdAt)}
+            message={chat.messages.at(-1)!.content}
+            onClick={navigateToChat(chat.id)}
+            isOnline={chat.interlocutor.isOnline}
+          />
+        ))}
       </S.ChatsList>
     </Section>
   );

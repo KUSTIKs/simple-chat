@@ -3,14 +3,14 @@ import styled, { css } from 'styled-components';
 export const Wrapper = styled.div(
   ({ theme }) => css`
     border-top: 2px solid ${theme.colors.grey.shade100.string()};
-    position: absolute;
-    bottom: 0;
+    min-height: ${theme.widths.messageInput};
     padding: 15px 20px;
     width: 100%;
     display: flex;
     align-items: end;
     gap: 15px;
     overflow: hidden;
+    background-color: white;
   `
 );
 

@@ -23,7 +23,11 @@
       "@simple-chat/config": ["src/config/index.ts"],
       "@simple-chat/assets": ["src/assets/index.ts"],
       "@simple-chat/widgets": ["src/widgets/index.ts"],
-      "@simple-chat/layouts": ["src/layouts/index.ts"]
+      "@simple-chat/layouts": ["src/layouts/index.ts"],
+      "@simple-chat/utils": ["src/utils/index.ts"],
+      "@simple-chat/services": ["src/services/index.ts"],
+      "@simple-chat/enums": ["src/enums/index.ts"],
+      "@simple-chat/pages": ["src/pages/index.ts"]
     }
   },
   "include": ["src"],

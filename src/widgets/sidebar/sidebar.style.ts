@@ -8,19 +8,16 @@ export const Sidebar = styled.aside(
     border-right: 2px solid ${theme.colors.grey.shade100.string()};
     height: 100vh;
     overflow: auto;
+    display: flex;
+    flex-direction: column;
   `
 );
 
 export const SectionsList = styled.ul(
   () => css`
+    scrollbar-gutter: stable;
     display: grid;
     list-style: none;
-  `
-);
-
-export const ChatsList = styled.ul(
-  () => css`
-    display: grid;
-    list-style: none;
+    overflow: auto;
   `
 );

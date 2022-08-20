@@ -1,19 +1,19 @@
 import { FC } from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { ThemeProvider } from 'styled-components';
 
+import { AppRouter } from './components';
 import { defaultTheme } from './config';
-import { MainLayout } from './layouts';
-import { Header, MessageInput } from './widgets';
+
+const queryClient = new QueryClient();
 
 export const App: FC = () => {
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <MainLayout>
-        <Header />
-        Hello
-        <MessageInput />
-      </MainLayout>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={defaultTheme}>
+        <AppRouter />
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 };

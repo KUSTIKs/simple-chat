@@ -9,6 +9,7 @@ type Props = {
   name: string;
   avatarSrc: string;
   date: Date;
+  isOnline: boolean;
   onClick?(): void;
 };
 
@@ -17,6 +18,7 @@ export const ChatItem: FC<Props> = ({
   message,
   name,
   date,
+  isOnline,
   onClick,
 }) => {
   const AvatarAlt = `${name}'s avatar`;
@@ -24,7 +26,7 @@ export const ChatItem: FC<Props> = ({
 
   return (
     <S.Wrapper onClick={onClick}>
-      <Avatar src={avatarSrc} alt={AvatarAlt} />
+      <Avatar src={avatarSrc} alt={AvatarAlt} isOnline={isOnline} />
       <S.Info>
         <S.InfoLine>
           <S.Name>{name}</S.Name>
