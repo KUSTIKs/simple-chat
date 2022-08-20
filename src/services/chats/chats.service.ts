@@ -1,21 +1,33 @@
-import { appFetch } from '@simple-chat/utils';
+import { appFetch, getFullName } from '@simple-chat/utils';
 import { Chat, Message } from '@simple-chat/types';
 
 import { UsersService } from '../users/users.service';
 
 export class ChatsService {
-  static async getAll() {
+  static async getAll({
+    query,
+  }: {
+    query?: Record<string, unknown> & {
+      q?: string;
+    };
+  } = {}) {
     const chats = await appFetch<Chat[]>({
       resource: 'chats',
     });
 
     const chatsWithFullInfo = await Promise.all(
-      chats.map(ChatsService.getFullChatInfo)
+      chats.map((chat) => ChatsService.getFullChatInfo(chat))
     );
 
-    const filteredChatsWithFullInfo = chatsWithFullInfo.filter(
-      (chat) => chat.messages.length > 0
-    );
+    const filteredChatsWithFullInfo = chatsWithFullInfo
+      .filter((chat) => chat.messages.length > 0)
+      .filter(({ interlocutor }) => {
+        if (!query?.q) return true;
+
+        return getFullName(interlocutor)
+          .toLowerCase()
+          .includes(query.q.toLowerCase());
+      });
 
     return filteredChatsWithFullInfo;
   }

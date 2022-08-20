@@ -6,13 +6,18 @@ import { ChatItem } from '@simple-chat/components';
 import { QueryKey } from '@simple-chat/enums';
 import { ChatsService } from '@simple-chat/services';
 import { getFullName } from '@simple-chat/utils';
+import { useAppSelector } from '@simple-chat/hooks';
 
 import { Section } from '../section';
 
 import * as S from './chats-section.style';
 
 export const ChatsSection: FC = () => {
-  const { data: chats } = useQuery([QueryKey.CHATS], ChatsService.getAll);
+  const { search } = useAppSelector((state) => state.app);
+  const { data: chats } = useQuery(
+    [QueryKey.CHATS, { query: { q: search } }],
+    () => ChatsService.getAll({ query: { q: search } })
+  );
   const navigate = useNavigate();
 
   const navigateToChat = (id: string) => () => {
