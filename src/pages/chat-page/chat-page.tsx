@@ -16,7 +16,7 @@ import {
 import { Message } from '@simple-chat/components';
 import { useDoc } from '@simple-chat/hooks';
 
-import * as S from './chat.style';
+import * as S from './chat-page.style';
 
 export const ChatPage: FC = () => {
   const messageListRef = useRef<HTMLUListElement>(null);

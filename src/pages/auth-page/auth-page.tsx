@@ -5,7 +5,7 @@ import { Button } from '@simple-chat/components';
 import { QueryKey } from '@simple-chat/enums';
 import { usersService } from '@simple-chat/services';
 
-import * as S from './auth.style';
+import * as S from './auth-page.style';
 
 export const AuthPage: FC = () => {
   const { mutate: signIn } = useMutation([QueryKey.USERS], () =>

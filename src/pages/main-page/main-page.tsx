@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import * as S from './main.style';
+import * as S from './main-page.style';
 
 export const MainPage: FC = () => {
   return (
