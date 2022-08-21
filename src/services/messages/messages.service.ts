@@ -1,37 +1,46 @@
-import { Chat, Message } from '@simple-chat/types';
-import { appFetch } from '@simple-chat/utils';
+import {
+  addDoc,
+  arrayUnion,
+  collection,
+  doc,
+  serverTimestamp,
+  Timestamp,
+  updateDoc,
+} from 'firebase/firestore';
 
-export class MessagesService {
-  static async getById(id: string) {
-    const message = await appFetch<Message>({ resource: `messages/${id}` });
-    return message;
-  }
+import { auth, db } from '@root/firebaseconfig';
 
-  static async create({
+import { DBMessage } from '@simple-chat/types';
+
+import { chatsService } from '../chats';
+import { usersService } from '../users';
+
+class MessagesService {
+  readonly collectionRef = collection(db, 'messages');
+
+  async create({
     chatId,
-    message,
+    message: userMessage,
   }: {
-    message: Message;
     chatId: string;
+    message: {
+      content: string;
+    };
   }) {
-    await appFetch({
-      resource: 'messages',
-      method: 'post',
-      body: message,
-    });
+    const chatRef = doc(chatsService.collectionRef, chatId);
+    const authorRef = doc(usersService.collectionRef, auth.currentUser!.uid);
+    const message: DBMessage = {
+      author: authorRef,
+      content: userMessage.content,
+      createdAt: serverTimestamp() as Timestamp,
+    };
 
-    const { messageIds } = await appFetch<Chat>({
-      resource: `chats/${chatId}`,
-    });
+    const messageRef = await addDoc(this.collectionRef, message);
 
-    const res = await appFetch({
-      resource: `chats/${chatId}`,
-      method: 'PATCH',
-      body: {
-        messageIds: [...messageIds, Number(message.id)],
-      },
+    await updateDoc(chatRef, {
+      messages: arrayUnion(messageRef),
     });
-
-    console.log('CREATED', messageIds, res);
   }
 }
+
+export const messagesService = new MessagesService();

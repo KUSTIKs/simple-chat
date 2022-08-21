@@ -9,7 +9,7 @@ export default {
 } as ComponentMeta<typeof ChatItem>;
 
 const Template: ComponentStoryFn<typeof ChatItem> = (args) => {
-  const date = new Date(args.date);
+  const date = args.date && new Date(args.date);
   return <ChatItem {...args} date={date} />;
 };
 

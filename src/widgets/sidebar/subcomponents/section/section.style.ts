@@ -10,6 +10,16 @@ export const Header = styled.header(
   () => css`
     padding: 15px 15px 0;
     width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  `
+);
+
+export const ActionsContainer = styled.div(
+  () => css`
+    display: flex;
+    gap: 10px;
   `
 );
 

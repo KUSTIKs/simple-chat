@@ -1,16 +1,61 @@
-import { User } from '@simple-chat/types';
-import { appFetch } from '@simple-chat/utils';
+import {
+  collection,
+  doc,
+  serverTimestamp,
+  setDoc,
+  Timestamp,
+  updateDoc,
+} from 'firebase/firestore';
 
-export class UsersService {
-  static async getById(id: string) {
-    const user = await appFetch<User>({ resource: `users/${id}` });
+import { signInWithGoogle, db, auth } from '@root/firebaseconfig';
 
-    return user;
+import { Account } from '@simple-chat/types';
+
+class UsersService {
+  readonly collectionRef = collection(db, 'accounts');
+
+  async signIn() {
+    const userCredential = await signInWithGoogle();
+    const { uid, displayName, photoURL, email } = userCredential.user;
+
+    const account: Account = {
+      id: uid,
+      name: displayName!,
+      avatarUrl: photoURL!,
+      email: email!,
+      isOnline: false,
+      lastTimeOnlineAt: serverTimestamp() as Timestamp,
+    };
+
+    setDoc(doc(this.collectionRef, uid), account);
   }
 
-  static async getCurrent() {
-    const user = await appFetch<User>({ resource: `currentUser` });
+  handleOnline = async () => {
+    if (!auth.currentUser) return;
+    const accountRef = doc(this.collectionRef, auth.currentUser.uid);
+    if (!accountRef) return;
+    const updateValues: Partial<Account> = {
+      isOnline: true,
+      lastTimeOnlineAt: serverTimestamp() as Timestamp,
+    };
+    try {
+      updateDoc(accountRef, updateValues);
+    } catch (error) {}
+  };
 
-    return user;
-  }
+  handleOffline = async () => {
+    if (!auth.currentUser) return;
+    const accountRef = doc(this.collectionRef, auth.currentUser.uid);
+    if (!accountRef) return;
+    const updateValues: Partial<Account> = {
+      isOnline: false,
+      lastTimeOnlineAt: serverTimestamp() as Timestamp,
+    };
+
+    try {
+      updateDoc(accountRef, updateValues);
+    } catch (error) {}
+  };
 }
+
+export const usersService = new UsersService();

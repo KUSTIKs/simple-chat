@@ -9,14 +9,14 @@ type Props = {
   content: string;
   date: Date;
   name: string;
-  avatarSrc?: string;
+  avatarUrl?: string;
   noAvatar?: boolean;
   variant?: MessageVariant;
   direction?: MessageDirection;
 };
 
 export const Message: FC<Props> = ({
-  avatarSrc,
+  avatarUrl,
   content,
   date,
   name,
@@ -25,11 +25,11 @@ export const Message: FC<Props> = ({
   noAvatar,
 }) => {
   const avatarAlt = `${name}'s avatar`;
-  const formattedDate = date.toLocaleDateString();
+  const formattedDate = date.toLocaleString();
 
   return (
     <S.Wrapper direction={direction}>
-      {!noAvatar && <Avatar alt={avatarAlt} src={avatarSrc} />}
+      {!noAvatar && <Avatar alt={avatarAlt} src={avatarUrl} />}
       <S.MessageColumn>
         <S.Message variant={variant}>
           <S.MessageContent>{content}</S.MessageContent>

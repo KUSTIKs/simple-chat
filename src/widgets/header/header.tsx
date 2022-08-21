@@ -4,16 +4,16 @@ import * as S from './header.style';
 import { UserInfo } from './subcomponents';
 
 type Props = {
-  avatarSrc: string;
-  lastTimeOnline: null | Date;
+  avatarUrl: string;
   name: string;
+  lastTimeOnline: Date | null;
 };
 
-export const Header: FC<Props> = ({ avatarSrc, lastTimeOnline, name }) => {
+export const Header: FC<Props> = ({ avatarUrl, lastTimeOnline, name }) => {
   return (
     <S.Header>
       <UserInfo
-        avatarSrc={avatarSrc}
+        avatarSrc={avatarUrl}
         lastTimeOnline={lastTimeOnline}
         name={name}
       />

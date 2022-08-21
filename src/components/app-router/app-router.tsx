@@ -8,7 +8,7 @@ import { AuthPage, ChatPage, LoadingPage, MainPage } from '@simple-chat/pages';
 import { MainLayout } from '@simple-chat/layouts';
 
 export const AppRouter: FC = () => {
-  const [user, isLoading, error] = useAuthState(auth);
+  const [user, isLoading] = useAuthState(auth);
 
   if (isLoading) {
     return <LoadingPage />;

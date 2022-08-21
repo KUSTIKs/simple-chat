@@ -5,10 +5,10 @@ import { Avatar } from '../avatar';
 import * as S from './chat-item.style';
 
 type Props = {
-  message: string;
+  message?: string;
   name: string;
   avatarSrc: string;
-  date: Date;
+  date?: Date;
   isOnline: boolean;
   onClick?(): void;
 };
@@ -22,7 +22,11 @@ export const ChatItem: FC<Props> = ({
   onClick,
 }) => {
   const AvatarAlt = `${name}'s avatar`;
-  const formattedDate = date.toLocaleDateString();
+  const formatDate = new Intl.DateTimeFormat(undefined, {
+    dateStyle: 'short',
+    timeStyle: 'short',
+  });
+  const formattedDate = date && formatDate.format(date);
 
   return (
     <S.Wrapper onClick={onClick}>
@@ -30,9 +34,9 @@ export const ChatItem: FC<Props> = ({
       <S.Info>
         <S.InfoLine>
           <S.Name>{name}</S.Name>
-          <S.Date>{formattedDate}</S.Date>
+          {formattedDate && <S.Date>{formattedDate}</S.Date>}
         </S.InfoLine>
-        <S.Message>{message}</S.Message>
+        {message && <S.Message>{message}</S.Message>}
       </S.Info>
     </S.Wrapper>
   );

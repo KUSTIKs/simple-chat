@@ -1,39 +1,52 @@
-import { FC, useEffect, useRef } from 'react';
+import { FC, useCallback, useEffect, useMemo, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { doc } from 'firebase/firestore';
+
+import { auth } from '@root/firebaseconfig';
 
 import { Header, MessageInput } from '@simple-chat/widgets';
 import { QueryKey } from '@simple-chat/enums';
-import { ChatsService, MessagesService } from '@simple-chat/services';
-import { getFullName } from '@simple-chat/utils';
+import {
+  chatsService,
+  messagesService,
+  usersService,
+} from '@simple-chat/services';
 import { Message } from '@simple-chat/components';
+import { useDoc } from '@simple-chat/hooks';
 
 import * as S from './chat.style';
 
 export const ChatPage: FC = () => {
   const messageListRef = useRef<HTMLUListElement>(null);
-  const queryClient = useQueryClient();
   const { chatId } = useParams();
-  const { data: chat } = useQuery([QueryKey.CHATS, chatId], () =>
-    ChatsService.getById(chatId)
+  const [user] = useAuthState(auth);
+  const getChat = useCallback(() => {
+    return chatsService.getById(chatId!);
+  }, [chatId]);
+  const useDocDependencies = useMemo(
+    () => [
+      doc(chatsService.collectionRef, chatId!),
+      doc(usersService.collectionRef, user!.uid),
+      doc(usersService.collectionRef, user!.uid),
+    ],
+    [chatId, user]
   );
+  const chat = useDoc({
+    handler: getChat,
+    dependencies: useDocDependencies,
+  });
+
   const { mutate: createMessage } = useMutation(
     [QueryKey.MESSAGES],
     (content: string) =>
-      MessagesService.create({
+      messagesService.create({
         message: {
-          content: content,
-          createdAt: new Date().toISOString(),
-          id: Date.now().toString(),
-          isYours: true,
+          content,
         },
         chatId: chatId!,
-      }),
-    {
-      onSuccess() {
-        queryClient.refetchQueries([QueryKey.CHATS, chatId]);
-      },
-    }
+      })
   );
 
   useEffect(() => {
@@ -46,31 +59,35 @@ export const ChatPage: FC = () => {
     return null;
   }
 
-  const lastTimeOnline = chat.interlocutor.isOnline
+  const interlocutor = chat!.members.find((member) => member.id !== user?.uid)!;
+  const lastTimeOnline = interlocutor.isOnline
     ? null
-    : new Date(chat.interlocutor.lastTimeOnlineAt);
-  const interlocutorName = getFullName(chat.interlocutor);
+    : interlocutor.lastTimeOnlineAt?.toDate();
 
   return (
     <S.Wrapper>
       <Header
-        avatarSrc={chat.interlocutor.avatarUrl}
+        avatarUrl={interlocutor.avatarUrl}
         lastTimeOnline={lastTimeOnline}
-        name={interlocutorName}
+        name={interlocutor.name}
       />
       <S.MessageList ref={messageListRef}>
-        {chat.messages.map(({ id, content, createdAt, isYours }) => (
-          <Message
-            key={id}
-            content={content}
-            date={new Date(createdAt)}
-            name={isYours ? 'Artem Khvostyk' : interlocutorName}
-            avatarSrc={isYours ? undefined : chat.interlocutor.avatarUrl}
-            direction={isYours ? 'rtl' : 'ltr'}
-            noAvatar={isYours}
-            variant={isYours ? 'light' : 'dark'}
-          />
-        ))}
+        {chat.messages.map(({ id, content, createdAt, author }) => {
+          const isMine = author.id === user?.uid;
+
+          return (
+            <Message
+              key={id}
+              content={content}
+              date={createdAt.toDate()}
+              name={author.name}
+              avatarUrl={author.avatarUrl}
+              direction={isMine ? 'rtl' : 'ltr'}
+              noAvatar={isMine}
+              variant={isMine ? 'light' : 'dark'}
+            />
+          );
+        })}
       </S.MessageList>
       <MessageInput handleSubmit={createMessage} />
     </S.Wrapper>

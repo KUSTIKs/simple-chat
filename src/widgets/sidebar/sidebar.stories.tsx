@@ -11,4 +11,4 @@ const Template: ComponentStoryFn<typeof Sidebar> = (args) => {
   return <Sidebar {...args} />;
 };
 
-export const Default = Template.bind({});
+// const Default = Template.bind({});

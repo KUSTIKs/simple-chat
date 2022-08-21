@@ -8,6 +8,7 @@ import { auth } from '@root/firebaseconfig';
 import { Avatar, Icon, TextInput } from '@simple-chat/components';
 import { useDebounce } from '@simple-chat/hooks';
 import { appActions } from '@simple-chat/store';
+import { usersService } from '@simple-chat/services';
 
 import * as S from './header.style';
 
@@ -22,6 +23,7 @@ export const Header: FC = () => {
   };
 
   const handleSignOut = () => {
+    usersService.handleOffline();
     signOut(auth);
   };
 
