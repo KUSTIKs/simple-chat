@@ -10,7 +10,7 @@ export const Wrapper = styled.div(
 );
 
 export const MessageList = styled.ul(
-  ({ theme }) => css`
+  () => css`
     list-style: none;
     scrollbar-gutter: stable;
     flex: 1;

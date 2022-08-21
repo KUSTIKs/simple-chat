@@ -28,10 +28,9 @@ export const ChatPage: FC = () => {
   const useDocDependencies = useMemo(
     () => [
       doc(chatsService.collectionRef, chatId!),
-      doc(usersService.collectionRef, user!.uid),
-      doc(usersService.collectionRef, user!.uid),
+      usersService.collectionRef,
     ],
-    [chatId, user]
+    [chatId]
   );
   const chat = useDoc({
     handler: getChat,

@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 type UseDocumentParams<T> = {
   handler: () => T | Promise<T>;
-  dependencies: DocumentReference[] | CollectionReference[];
+  dependencies: (DocumentReference | CollectionReference)[];
 };
 
 export const useDoc = <T>({ handler, dependencies }: UseDocumentParams<T>) => {
