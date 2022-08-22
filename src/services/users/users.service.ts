@@ -4,6 +4,7 @@ import {
   serverTimestamp,
   setDoc,
   Timestamp,
+  updateDoc,
 } from 'firebase/firestore';
 import { getAdditionalUserInfo } from 'firebase/auth';
 
@@ -50,7 +51,7 @@ class UsersService {
       lastTimeOnlineAt: serverTimestamp() as Timestamp,
     };
 
-    await setDoc(accountRef, updateValues);
+    await updateDoc(accountRef, updateValues);
   };
 
   handleOffline = async () => {
@@ -62,7 +63,7 @@ class UsersService {
       lastTimeOnlineAt: serverTimestamp() as Timestamp,
     };
 
-    await setDoc(accountRef, updateValues);
+    await updateDoc(accountRef, updateValues);
   };
 }
 
