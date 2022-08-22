@@ -16,10 +16,14 @@ import * as S from './chats-section.style';
 export const ChatsSection: FC = () => {
   const [user] = useAuthState(auth);
   const { search } = useAppSelector((state) => state.app);
-  const getChats = useCallback(() => {
-    return chatsService.getAll({
-      q: search,
-    });
+  const getChats = useCallback(async () => {
+    try {
+      return await chatsService.getAll({
+        q: search,
+      });
+    } catch (err) {
+      return [];
+    }
   }, [search]);
   const useDocDependencies = useMemo(
     () => [usersService.collectionRef, chatsService.collectionRef],

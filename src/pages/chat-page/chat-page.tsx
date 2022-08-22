@@ -11,10 +11,12 @@ import { QueryKey } from '@simple-chat/enums';
 import {
   chatsService,
   messagesService,
+  randomMessageService,
   usersService,
 } from '@simple-chat/services';
 import { Message } from '@simple-chat/components';
 import { useDoc } from '@simple-chat/hooks';
+import { BOT_ID } from '@simple-chat/config';
 
 import * as S from './chat-page.style';
 
@@ -22,9 +24,16 @@ export const ChatPage: FC = () => {
   const messageListRef = useRef<HTMLUListElement>(null);
   const { chatId } = useParams();
   const [user] = useAuthState(auth);
-  const getChat = useCallback(() => {
-    return chatsService.getById(chatId!);
+
+  const getChat = useCallback(async () => {
+    if (!chatId) return null;
+    try {
+      return await chatsService.getById(chatId);
+    } catch (err) {
+      return null;
+    }
   }, [chatId]);
+
   const useDocDependencies = useMemo(
     () => [
       doc(chatsService.collectionRef, chatId!),
@@ -39,14 +48,31 @@ export const ChatPage: FC = () => {
 
   const { mutate: createMessage } = useMutation(
     [QueryKey.MESSAGES],
-    (content: string) =>
+    ({ content, authorId }: { content: string; authorId?: string }) =>
       messagesService.create({
         message: {
           content,
+          authorId,
         },
         chatId: chatId!,
       })
   );
+
+  const interlocutor = chat?.members.find((member) => member.id !== user?.uid)!;
+  const isBot = interlocutor?.id === BOT_ID;
+
+  const sendRandomMessage = useCallback(async () => {
+    const { value } = await randomMessageService.getOne();
+    createMessage({
+      content: value,
+      authorId: BOT_ID,
+    });
+  }, [createMessage]);
+
+  useEffect(() => {
+    if (!isBot || !chat || chat?.messages.at(-1)?.author.id === BOT_ID) return;
+    sendRandomMessage();
+  }, [isBot, sendRandomMessage, chat?.messages, chat]);
 
   useEffect(() => {
     const messageList = messageListRef.current;
@@ -58,10 +84,9 @@ export const ChatPage: FC = () => {
     return null;
   }
 
-  const interlocutor = chat!.members.find((member) => member.id !== user?.uid)!;
   const lastTimeOnline = interlocutor.isOnline
     ? null
-    : interlocutor.lastTimeOnlineAt?.toDate();
+    : interlocutor.lastTimeOnlineAt.toDate();
 
   return (
     <S.Wrapper>
@@ -88,7 +113,9 @@ export const ChatPage: FC = () => {
           );
         })}
       </S.MessageList>
-      <MessageInput handleSubmit={createMessage} />
+      <MessageInput
+        handleSubmit={(value) => createMessage({ content: value })}
+      />
     </S.Wrapper>
   );
 };

@@ -25,10 +25,14 @@ class MessagesService {
     chatId: string;
     message: {
       content: string;
+      authorId?: string;
     };
   }) {
     const chatRef = doc(chatsService.collectionRef, chatId);
-    const authorRef = doc(usersService.collectionRef, auth.currentUser!.uid);
+    const authorRef = doc(
+      usersService.collectionRef,
+      userMessage.authorId || auth.currentUser!.uid
+    );
     const message: DBMessage = {
       author: authorRef,
       content: userMessage.content,

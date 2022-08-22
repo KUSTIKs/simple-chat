@@ -4,12 +4,16 @@ import {
   serverTimestamp,
   setDoc,
   Timestamp,
-  updateDoc,
 } from 'firebase/firestore';
+import { getAdditionalUserInfo } from 'firebase/auth';
 
 import { signInWithGoogle, db, auth } from '@root/firebaseconfig';
+import { DBAccount } from '@root/src/types/common/account.type';
 
 import { Account } from '@simple-chat/types';
+import { BOT_ID } from '@simple-chat/config';
+
+import { chatsService } from '../chats';
 
 class UsersService {
   readonly collectionRef = collection(db, 'accounts');
@@ -18,8 +22,7 @@ class UsersService {
     const userCredential = await signInWithGoogle();
     const { uid, displayName, photoURL, email } = userCredential.user;
 
-    const account: Account = {
-      id: uid,
+    const account: DBAccount = {
       name: displayName!,
       avatarUrl: photoURL!,
       email: email!,
@@ -27,7 +30,15 @@ class UsersService {
       lastTimeOnlineAt: serverTimestamp() as Timestamp,
     };
 
-    setDoc(doc(this.collectionRef, uid), account);
+    await setDoc(doc(this.collectionRef, uid), account, {
+      mergeFields: ['avatarUrl', 'name', 'email'],
+    });
+
+    const isNewUser = getAdditionalUserInfo(userCredential)?.isNewUser;
+
+    if (isNewUser) {
+      await chatsService.create({ interlocutorId: BOT_ID });
+    }
   }
 
   handleOnline = async () => {
@@ -38,9 +49,8 @@ class UsersService {
       isOnline: true,
       lastTimeOnlineAt: serverTimestamp() as Timestamp,
     };
-    try {
-      updateDoc(accountRef, updateValues);
-    } catch (error) {}
+
+    await setDoc(accountRef, updateValues);
   };
 
   handleOffline = async () => {
@@ -52,9 +62,7 @@ class UsersService {
       lastTimeOnlineAt: serverTimestamp() as Timestamp,
     };
 
-    try {
-      updateDoc(accountRef, updateValues);
-    } catch (error) {}
+    await setDoc(accountRef, updateValues);
   };
 }
 

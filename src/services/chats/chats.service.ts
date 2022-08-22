@@ -65,18 +65,35 @@ class ChatsService {
     return chat;
   }
 
-  async create({ interlocutorEmail }: { interlocutorEmail: string }) {
+  async create({
+    interlocutorEmail,
+    interlocutorId,
+  }: {
+    interlocutorEmail?: string;
+    interlocutorId?: string;
+  }) {
     const { currentUser } = auth;
     if (!currentUser) {
       throw new AppError('User not authorized');
     }
 
-    const interlocutorQuery = query(
-      usersService.collectionRef,
-      where('email', '==', interlocutorEmail)
-    );
-    const interlocutorAccountRef = (await getDocs(interlocutorQuery)).docs[0]
-      ?.ref;
+    if (!interlocutorEmail && !interlocutorId) {
+      throw new AppError(
+        'You must provide easer interlocutorEmail or interlocutorId'
+      );
+    }
+
+    const interlocutorAccountRef = interlocutorId
+      ? doc(usersService.collectionRef, interlocutorId)
+      : (
+          await getDocs(
+            query(
+              usersService.collectionRef,
+              where('email', '==', interlocutorEmail)
+            )
+          )
+        ).docs[0]?.ref;
+
     const currentAccountRef = doc(usersService.collectionRef, currentUser.uid);
 
     if (!interlocutorAccountRef) {
@@ -107,8 +124,7 @@ class ChatsService {
 
     if (
       !auth.currentUser ||
-      typeof docData.members.find((m) => m.id === auth.currentUser?.uid) ===
-        'undefined'
+      !docData?.members.find((m) => m.id === auth.currentUser?.uid)
     ) {
       throw new AppError('You are not a member of this chat');
     }
