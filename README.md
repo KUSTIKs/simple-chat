@@ -81,9 +81,19 @@ npm install yarn@latest -g
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## Mobile adaptive
+
+This application is fully mobile responsive
+![mobile_chat-page](https://user-images.githubusercontent.com/62993891/185960537-a4d4ad3a-5ab9-49af-937b-911a9b27c0a4.png) | ![mobile_chats-page](https://user-images.githubusercontent.com/62993891/185962139-7d04a01d-afad-4629-95f7-ae41bb90021d.png) | ![mobile_auth-page](https://user-images.githubusercontent.com/62993891/185960587-74ddfbe8-573b-4d75-8841-02b89d1ac620.png)
+---|---|---
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 ## Bot
 
 Bot is just a user, which responds with joke from [chucknorris.io](https://api.chucknorris.io/) api on every user message
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Data
 
