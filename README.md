@@ -8,12 +8,12 @@
   <h3 align="center">Simple Chat</h3>
 
   <p align="center">
-    Chat application where you can talk with your friends
+    Application that helps you to communicate with other in real time
     <br/>
     <br/>
     <a href="https://simple-chat-71ab0.web.app/">Live Demo</a>
     ·
-    <a href="https://youtu.be/r2zsa-3zbF4">Video Demo</a>
+    <a href="https://youtu.be/Iubl6Bh2obI">Video Demo</a>
     ·
     <a href="https://github.com/KUSTIKs/simple-chat/issues/new">Report Bug</a>
     ·
@@ -57,29 +57,33 @@ npm install yarn@latest -g
 
 1. Clone the repo
 
-   ```sh
-   git clone https://github.com/KUSTIKs/simple-chat.git
-   ```
+```sh
+git clone https://github.com/KUSTIKs/simple-chat.git
+```
 
-   or
+or
 
-   ```sh
-   git clone git@github.com:KUSTIKs/simple-chat.git
-   ```
+```sh
+git clone git@github.com:KUSTIKs/simple-chat.git
+```
 
-2. Install dependencies
+1. Install dependencies
 
-   ```sh
-   yarn
-   ```
+```sh
+yarn
+```
 
-3. To start a project run
+1. To start a project run
 
-   ```sh
-   yarn dev
-   ```
+```sh
+yarn dev
+```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+## Bot
+
+Bot is just a user, which responds with joke from [chucknorris.io](https://api.chucknorris.io/) api on every user message
 
 ## Data
 
