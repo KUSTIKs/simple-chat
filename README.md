@@ -57,27 +57,27 @@ npm install yarn@latest -g
 
 1. Clone the repo
 
-```sh
-git clone https://github.com/KUSTIKs/simple-chat.git
-```
+   ```sh
+   git clone https://github.com/KUSTIKs/simple-chat.git
+   ```
 
-or
+   or
 
-```sh
-git clone git@github.com:KUSTIKs/simple-chat.git
-```
+   ```sh
+   git clone git@github.com:KUSTIKs/simple-chat.git
+   ```
 
 1. Install dependencies
 
-```sh
-yarn
-```
+   ```sh
+   yarn
+   ```
 
 1. To start a project run
 
-```sh
-yarn dev
-```
+   ```sh
+   yarn dev
+   ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
