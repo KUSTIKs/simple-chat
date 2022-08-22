@@ -3,6 +3,7 @@ import {
   RiSendPlaneFill,
   RiLogoutCircleLine,
   RiAddLine,
+  RiArrowLeftLine,
 } from 'react-icons/ri';
 
 export const Icon = {
@@ -10,4 +11,5 @@ export const Icon = {
   SendPlaneFill: RiSendPlaneFill,
   LogoutCircleLine: RiLogoutCircleLine,
   AddLine: RiAddLine,
+  ArrowLeftLine: RiArrowLeftLine,
 } as const;

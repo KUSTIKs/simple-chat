@@ -10,6 +10,9 @@ export const Sidebar = styled.aside(
     overflow: auto;
     display: flex;
     flex-direction: column;
+    @media screen and (max-width: ${theme.widths.mobile}) {
+      max-width: unset;
+    }
   `
 );
 

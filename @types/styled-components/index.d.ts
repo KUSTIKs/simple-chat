@@ -26,6 +26,7 @@ declare module 'styled-components' {
       sidebar: string;
       messageInput: string;
       maxMessage: string;
+      mobile: string;
     };
   }
 }
