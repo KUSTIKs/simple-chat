@@ -103,7 +103,10 @@ class ChatsService {
     const isExists = await getDocs(
       query(
         this.collectionRef,
-        where('members', 'in', [interlocutorAccountRef, currentAccountRef])
+        where('members', 'in', [
+          [interlocutorAccountRef, currentAccountRef],
+          [currentAccountRef, interlocutorAccountRef],
+        ])
       )
     ).then((doc) => !doc.empty);
 
