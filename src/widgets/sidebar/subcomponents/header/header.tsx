@@ -22,9 +22,9 @@ export const Header: FC = () => {
     setSearch(e.target.value);
   };
 
-  const handleSignOut = () => {
-    usersService.handleOffline();
-    signOut(auth);
+  const handleSignOut = async () => {
+    await usersService.handleOffline();
+    await signOut(auth);
   };
 
   useEffect(() => {
